@@ -14,8 +14,13 @@ st.title("🫁 Thoracic Resident Assistant")
 
 # --- API KEY SETUP ---
 # Ideally, we will move this to a secure "Secrets" file later.
-os.environ["OPENAI_API_KEY"] = "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" 
-
+# Try to load the key from Streamlit secrets (Cloud or Local)
+if "OPENAI_API_KEY" in st.secrets:
+    os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+else:
+    st.error("⚠️ OpenAI API Key not found. Please set it in secrets.toml or Streamlit Cloud.")
+    st.stop()
+    
 # --- THE BRAIN (CACHED) ---
 # This function runs ONLY once when the app starts, not every time you click.
 @st.cache_resource
